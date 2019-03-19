@@ -6,6 +6,10 @@ import Pokeball from './imagenes/PK.png';
 import LoginCmp from './components/LoginCmp';
 import PokemonList from './components/PokemonList';
 import Switch from 'react-router-dom/Switch';
+import { Provider as ReduxProvider } from "react-redux";
+import configureStore from "./modules/store";
+
+const reduxStore = configureStore(window.REDUX_INITIAL_DATA);
 
 const routing = (
   <Router>
@@ -27,9 +31,11 @@ class App extends Component {
 
           {/*imagen de la pokeball*/}
           <img src={Pokeball} className="Pokeball-item" alt="PI"/>
-        <div>
-          {routing}
-        </div>
+        <ReduxProvider store={reduxStore}>
+          <div>
+            {routing}
+          </div>
+        </ReduxProvider>
       </div>
     );
   }

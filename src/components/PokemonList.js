@@ -3,6 +3,8 @@ import { withStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 
 import { Avatar, ListItem, List, ListItemAvatar, ListItemText } from '@material-ui/core';
+import ACTIONS from "../modules/action";
+import { connect } from "react-redux";
 
 
 const styles = theme => ({
@@ -13,23 +15,27 @@ const styles = theme => ({
     },
 });
 
+const mapStateToProps = state => ({
+    items: state.items
+});
+
+const mapDispatchToProps = dispatch => ({
+    createItem: item => dispatch(ACTIONS.createItem(item)),
+    deleteItem: id => dispatch(ACTIONS.deleteItem(id))
+});
+
+
 class PokemonList extends Component{
-    constructor(props){
-        super(props);
+    constructor(){
+        super();
         this.state={
-            pokemon: [
-                {name:'Pikachu',image:'https://icon2.kisspng.com/20171220/zge/pikachu-png-5a3a8cb04eba97.2589182415137865443225.jpg',Type:'Electric',Height: 12,Weight: 23,Gender:'M',CatchR: '34%'},
-                {name:'Pichu',image:'https://banner2.kisspng.com/20180602/uxs/kisspng-pikachu-pichu-pokmon-ranger-pokmon-go-monsters-5b1245d16bccb2.4875086515279241774416.jpg',Type:'Electric',Height: 12, Weight: 23,Gender:'F',CatchR: '34%'},
-                {name:'Raichu',image:'https://banner2.kisspng.com/20180524/urj/kisspng-pikachu-pokmon-x-and-y-raichu-dragonair-5b076a84147ca9.2268035715272126760839.jpg',Type:'Electric',Height: 9, Weight: 12,Gender:'M',CatchR: '25%'},
-                {name:'Bulbasaur',image:'https://banner2.kisspng.com/20190220/jvp/kisspng-bulbasaur-portable-network-graphics-image-ivysaur-5c6de5a8d995a8.8243952615507060888912.jpg',Type:'Leaf',Height: 8, Weight: 2,Gender:'F',CatchR: '21%'},
-                {name:'Charmander',image:'https://icon2.kisspng.com/20180612/gyq/kisspng-pikachu-pokmon-x-and-y-charmander-charizard-charmander-5b20033fef11f6.0297187615288246399792.jpg',Type:'Fire',Height: 7, Weight: 4,Gender:'M',CatchR: '50%'}
-            ]
+            pokemon: ""
         }
     }
 
     generateList = () =>{
-        return this.state.pokemon.map((row,index) =>(
-                    <ListItem key={index}>
+        return this.props.items.map(row =>(
+                    <ListItem key={row.id}>
                         <ListItemAvatar>
                             <Avatar src={row.image} className={this.bigAvatar}/>
                         </ListItemAvatar>
@@ -53,4 +59,7 @@ class PokemonList extends Component{
 }
 
 
-export default withStyles(styles)(PokemonList);
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(withStyles(styles)(PokemonList));
