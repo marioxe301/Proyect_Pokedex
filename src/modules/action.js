@@ -4,9 +4,9 @@ const Types = {
     DELETE_ITEM: "DELETE_ITEM"
   };
   // actions
-  const createItem = task => ({
+  const createItem = (name,image,t,h,w,g,cr) => ({
     type: Types.CREATE_ITEM,
-    payload: task
+    payload: {name,image,t,h,w,g,cr}
   });
   
   const deleteItem = id => ({
